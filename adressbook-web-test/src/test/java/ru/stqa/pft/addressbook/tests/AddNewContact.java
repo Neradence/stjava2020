@@ -7,9 +7,9 @@ public class AddNewContact extends TestBase {
 
   @Test
   public void testAddNewContact() throws Exception {
-    app.goToAddContactTab();
-    app.fillContactForm(new ContactData("Anna", "Wait", "+1 888 888 88", "anna@mail.mail"));
-    app.goToAddContactTab();
+    app.getNavigationHelper().goToAddContactTab();
+    app.getContactHelper().fillContactForm(new ContactData("Anna", "Wait", "+1 888 888 88", "anna@mail.mail"));
+    app.getNavigationHelper().goToAddContactTab();
   }
 
 }
