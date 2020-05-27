@@ -9,6 +9,7 @@ public class AddNewContact extends TestBase {
   public void testAddNewContact() throws Exception {
     app.getNavigationHelper().goToAddContactTab();
     app.getContactHelper().fillContactForm(new ContactData("Anna", "Wait", "+1 888 888 88", "anna@mail.mail"));
+    app.getContactHelper().saveNewContactForm();
     app.getNavigationHelper().goToAddContactTab();
   }
 

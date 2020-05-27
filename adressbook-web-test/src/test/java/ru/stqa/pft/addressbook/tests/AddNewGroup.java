@@ -10,6 +10,7 @@ public class AddNewGroup extends TestBase {
     app.getNavigationHelper().goToGroupTab();
     app.getGroupHelper().initGroupCreation();
     app.getGroupHelper().fillGroupForm(new GroupData("Colleagues", "logo", "This is work group"));
+    app.getGroupHelper().saveFilledGroupForm();
     app.getNavigationHelper().goToGroupTab();
   }
 
