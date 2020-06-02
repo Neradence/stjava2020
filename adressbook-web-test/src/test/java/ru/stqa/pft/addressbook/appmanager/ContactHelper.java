@@ -13,17 +13,11 @@ public class ContactHelper extends HelperBase {
         super(wd);
     }
 
-    public void fillContactForm(ContactData contactData, boolean creationcheck) {
+    public void fillContactForm(ContactData contactData) {
         type(By.name("firstname"),contactData.getContactname());
         type(By.name("lastname"),contactData.getContactsurname());
         type(By.name("home"),contactData.getContactphone());
         type(By.name("email"),contactData.getContactmail());
-
-        if (creationcheck) {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getContactgroup());
-        } else {
-            Assert.assertFalse(isPresentElement(By.name("new_group")));
-        }
     }
 
     public void checkContact() {
@@ -49,5 +43,15 @@ public class ContactHelper extends HelperBase {
 
     public void saveModifiedContactForm() {
         click(By.xpath("(//input[@name='update'])[2]"));
+    }
+
+    public boolean isContactExist() {
+        return isPresentElement(By.name("selected[]"));
+    }
+
+    public void createContact(ContactData contactData) {
+        click(By.linkText("add new"));
+        fillContactForm(contactData);
+        saveNewContactForm();
     }
 }
