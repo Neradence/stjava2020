@@ -9,7 +9,7 @@ public class AddNewGroup extends TestBase {
   public void testAddNewGroup() throws Exception {
     app.getNavigationHelper().goToGroupTab();
     app.getGroupHelper().initGroupCreation();
-    app.getGroupHelper().fillGroupForm(new GroupData("Colleagues", "logo", "This is work group"));
+    app.getGroupHelper().fillGroupForm(new GroupData("Colleagues", null, null));
     app.getGroupHelper().saveFilledGroupForm();
     app.getNavigationHelper().goToGroupTab();
   }
