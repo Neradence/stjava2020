@@ -10,6 +10,11 @@ public class NavigationHelper extends HelperBase {
     }
 
     public void goToGroupTab() {
+        if (isPresentElement(By.tagName("h1"))
+                && wd.findElement(By.tagName("h1")).getText().equals("Groups")
+                && isPresentElement(By.name("New"))) {
+            return;
+        }
         click(By.linkText("groups"));
     }
 
@@ -18,6 +23,9 @@ public class NavigationHelper extends HelperBase {
     }
 
     public void goToAllContactTab() {
+        if (isPresentElement(By.id("maintable"))){
+            return;
+        }
         click(By.linkText("home"));
     }
 
