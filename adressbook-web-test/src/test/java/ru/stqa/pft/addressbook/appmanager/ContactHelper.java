@@ -1,11 +1,12 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
+import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.models.ContactData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
 
@@ -20,8 +21,8 @@ public class ContactHelper extends HelperBase {
         type(By.name("email"),contactData.getContactmail());
     }
 
-    public void checkContact() {
-        click(By.name("selected[]"));
+    public void checkContact(int index) {
+        wd.findElements(By.name("selected[]")).get(index).click();
     }
 
     public void pressDeleteContact() {
@@ -33,7 +34,6 @@ public class ContactHelper extends HelperBase {
     }
 
     public void initModifyContact() {
-        click(By.name("selected[]"));
         click(By.xpath("//img[@alt='Edit']"));
     }
 
@@ -54,4 +54,18 @@ public class ContactHelper extends HelperBase {
         fillContactForm(contactData);
         saveNewContactForm();
     }
+
+    public List<ContactData> getContactList() {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+        List<WebElement> elements = wd.findElements(By.name("entry"));
+        for (WebElement element : elements) {
+            int coid = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+            String coname = element.findElement(By.xpath(".//td[3]")).getText();
+            String cosurname = element.findElement(By.xpath(".//td[2]")).getText();
+            ContactData contact = new ContactData(coid, coname, cosurname, null, null, null);
+            contacts.add(contact);
+        }
+        return contacts;
+    }
+
 }
