@@ -9,7 +9,7 @@ public class NavigationHelper extends HelperBase {
         super(wd);
     }
 
-    public void goToGroupTab() {
+    public void groupTab() {
         if (isPresentElement(By.tagName("h1"))
                 && wd.findElement(By.tagName("h1")).getText().equals("Groups")
                 && isPresentElement(By.name("New"))) {
@@ -18,11 +18,11 @@ public class NavigationHelper extends HelperBase {
         click(By.linkText("groups"));
     }
 
-    public void goToAddContactTab() {
+    public void addContactTab() {
         click(By.linkText("add new"));
     }
 
-    public void goToAllContactTab() {
+    public void allContactTab() {
         if (isPresentElement(By.id("maintable"))){
             return;
         }

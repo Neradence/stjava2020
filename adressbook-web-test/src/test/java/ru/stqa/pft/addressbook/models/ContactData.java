@@ -3,30 +3,12 @@ package ru.stqa.pft.addressbook.models;
 import java.util.Objects;
 
 public class ContactData {
-    private int contactid;
-    private final String contactname;
-    private final String contactsurname;
-    private final String contactphone;
-    private final String contactmail;
-    private final String contactgroup;
-
-    public ContactData(int contactid, String contactname, String contactsurname, String contactphone, String contactmail, String contactgroup) {
-        this.contactid = contactid;
-        this.contactname = contactname;
-        this.contactsurname = contactsurname;
-        this.contactphone = contactphone;
-        this.contactmail = contactmail;
-        this.contactgroup = contactgroup;
-    }
-
-    public ContactData(String contactname, String contactsurname, String contactphone, String contactmail, String contactgroup) {
-        this.contactid = Integer.MAX_VALUE;
-        this.contactname = contactname;
-        this.contactsurname = contactsurname;
-        this.contactphone = contactphone;
-        this.contactmail = contactmail;
-        this.contactgroup = contactgroup;
-    }
+    private int contactid = Integer.MAX_VALUE;
+    private String contactname;
+    private String contactsurname;
+    private String contactphone;
+    private String contactmail;
+    private String contactgroup;
 
     public String getContactname() {
         return contactname;
@@ -52,8 +34,34 @@ public class ContactData {
         return contactid;
     }
 
-    public void setContactid(int contactid) {
+    public ContactData withContactid(int contactid) {
         this.contactid = contactid;
+        return this;
+    }
+
+    public ContactData withContactname(String contactname) {
+        this.contactname = contactname;
+        return this;
+    }
+
+    public ContactData withContactsurname(String contactsurname) {
+        this.contactsurname = contactsurname;
+        return this;
+    }
+
+    public ContactData withContactphone(String contactphone) {
+        this.contactphone = contactphone;
+        return this;
+    }
+
+    public ContactData withContactmail(String contactmail) {
+        this.contactmail = contactmail;
+        return this;
+    }
+
+    public ContactData withContactgroup(String contactgroup) {
+        this.contactgroup = contactgroup;
+        return this;
     }
 
     @Override
@@ -70,12 +78,13 @@ public class ContactData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContactData that = (ContactData) o;
-        return Objects.equals(contactname, that.contactname) &&
+        return contactid == that.contactid &&
+                Objects.equals(contactname, that.contactname) &&
                 Objects.equals(contactsurname, that.contactsurname);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(contactname, contactsurname);
+        return Objects.hash(contactid, contactname, contactsurname);
     }
 }

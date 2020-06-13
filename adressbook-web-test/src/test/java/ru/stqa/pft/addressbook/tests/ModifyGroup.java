@@ -1,40 +1,40 @@
 package ru.stqa.pft.addressbook.tests;
 
-import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.models.GroupData;
+import ru.stqa.pft.addressbook.models.Groups;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 public class ModifyGroup extends TestBase {
 
+    @BeforeMethod
+    public void ensurePreconditions() {
+        app.goTo().groupTab();
+
+        if (app.group().allGroup().size() == 0) {
+            app.group().createGroup(new GroupData().withGroupname("Sport").withGroupfooter("logo-1").withGroupheader("header-1"));
+            app.goTo().groupTab();
+        }
+    }
+
     @Test
     public void testModifyGroup() throws Exception {
-        app.getNavigationHelper().goToGroupTab();
 
-        if (! app.getGroupHelper().isGroupExist()) {
-            app.getGroupHelper().createGroup(new GroupData("Friends", "logo", null));
-            app.getNavigationHelper().goToGroupTab();
-        }
+        Groups before = app.group().allGroup();
+        GroupData modGroup = before.iterator().next();
+        GroupData group = new GroupData().withGroupid(modGroup.getGroupid()).withGroupname("Bar").withGroupfooter("logo-2").withGroupheader("header-2");
 
-        List<GroupData> before = app.getGroupHelper().getGroupList();
-        app.getGroupHelper().selectGroup(before.size() - 1);
-        app.getGroupHelper().modifySelectGroup();
-        GroupData group = new GroupData(before.get(before.size() - 1).getGroupid(), "Sport", "logo-2", "Friends Group");
-        app.getGroupHelper().fillGroupForm(group);
-        app.getGroupHelper().saveModifyGroupForm();
-        app.getNavigationHelper().goToGroupTab();
-        List<GroupData> after = app.getGroupHelper().getGroupList();
-        Assert.assertEquals(after.size(), before.size());
+        app.group().modifyGroup(group);
+        app.goTo().groupTab();
 
-        before.remove(before.size() - 1);
-        before.add(group);
-        Comparator<? super GroupData> byId = (g1, g2) -> Integer.compare(g1.getGroupid(), g2.getGroupid());
-        before.sort(byId);
-        after.sort(byId);
-        Assert.assertEquals(before, after);
+        Groups after = app.group().allGroup();
+        assertEquals(after.size(), before.size());
+
+        assertThat(after, equalTo(before.withOut(modGroup).withAdded(group)));
     }
+
 }
