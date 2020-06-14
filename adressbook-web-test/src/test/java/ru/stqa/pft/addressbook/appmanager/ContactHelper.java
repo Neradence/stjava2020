@@ -10,6 +10,8 @@ import java.util.List;
 
 public class ContactHelper extends HelperBase {
 
+    private Contacts contactCache = null;
+
     public ContactHelper(WebDriver wd) {
         super(wd);
     }
@@ -19,6 +21,10 @@ public class ContactHelper extends HelperBase {
         type(By.name("lastname"),contactData.getContactsurname());
         type(By.name("home"),contactData.getContactphone());
         type(By.name("email"),contactData.getContactmail());
+    }
+
+    public int getContactCount() {
+        return wd.findElements(By.name("selected[]")).size();
     }
 
     public void checkContactById(int id) {
@@ -49,30 +55,37 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
         fillContactForm(contactData);
         saveNewContactForm();
+        contactCache = null;
     }
 
     public void deleteContact(ContactData delContact) {
         checkContactById(delContact.getContactid());
         pressDeleteContact();
         assertDeleteContact();
+        contactCache = null;
     }
 
     public void modifyContact(ContactData contact) {
         initModifyContactById(contact.getContactid());
         fillContactForm(contact);
         saveModifiedContactForm();
+        contactCache = null;
     }
 
     public Contacts allContact() {
-        Contacts contacts = new Contacts();
+        if (contactCache != null) {
+            return new Contacts(contactCache);
+        }
+
+        contactCache = new Contacts();
         List<WebElement> elements = wd.findElements(By.name("entry"));
         for (WebElement element : elements) {
             int coid = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
             String coname = element.findElement(By.xpath(".//td[3]")).getText();
             String cosurname = element.findElement(By.xpath(".//td[2]")).getText();
-            contacts.add(new ContactData().withContactid(coid).withContactname(coname).withContactsurname(cosurname));
+            contactCache.add(new ContactData().withContactid(coid).withContactname(coname).withContactsurname(cosurname));
         }
-        return contacts;
+        return new Contacts(contactCache);
     }
 
 }

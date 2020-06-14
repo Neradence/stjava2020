@@ -10,6 +10,8 @@ import java.util.List;
 
 public class GroupHelper extends HelperBase {
 
+    private Groups groupCache = null;
+
     public GroupHelper(WebDriver wd) {
         super(wd);
     }
@@ -18,6 +20,10 @@ public class GroupHelper extends HelperBase {
         type(By.name("group_name"), groupData.getGroupname());
         type(By.name("group_header"), groupData.getGroupheader());
         type(By.name("group_footer"), groupData.getGroupfooter());
+    }
+
+    public int getGroupCount() {
+        return wd.findElements(By.name("selected[]")).size();
     }
 
     public void initGroupCreation() {
@@ -48,6 +54,7 @@ public class GroupHelper extends HelperBase {
         initGroupCreation();
         fillGroupForm(groupData);
         saveFilledGroupForm();
+        groupCache = null;
     }
 
     public void modifyGroup(GroupData group) {
@@ -55,22 +62,28 @@ public class GroupHelper extends HelperBase {
         modifySelectGroup();
         fillGroupForm(group);
         saveModifyGroupForm();
+        groupCache = null;
     }
 
     public void deleteGroup(GroupData delGroup) {
         selectGroupById(delGroup.getGroupid());
         deleteSelectedGroup();
+        groupCache = null;
     }
 
     public Groups allGroup() {
-        Groups groups = new Groups();
+        if (groupCache != null) {
+            return new Groups(groupCache);
+        }
+
+        groupCache = new Groups();
         List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
         for (WebElement element : elements) {
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
             String name = element.getText();
-            groups.add(new GroupData().withGroupid(id).withGroupname(name));
+            groupCache.add(new GroupData().withGroupid(id).withGroupname(name));
         }
-        return groups;
+        return new Groups(groupCache);
     }
 
 }

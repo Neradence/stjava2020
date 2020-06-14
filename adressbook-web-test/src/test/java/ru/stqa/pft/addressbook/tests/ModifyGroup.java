@@ -27,13 +27,11 @@ public class ModifyGroup extends TestBase {
         Groups before = app.group().allGroup();
         GroupData modGroup = before.iterator().next();
         GroupData group = new GroupData().withGroupid(modGroup.getGroupid()).withGroupname("Bar").withGroupfooter("logo-2").withGroupheader("header-2");
-
         app.group().modifyGroup(group);
         app.goTo().groupTab();
 
+        assertThat(app.group().getGroupCount(), equalTo(before.size()));
         Groups after = app.group().allGroup();
-        assertEquals(after.size(), before.size());
-
         assertThat(after, equalTo(before.withOut(modGroup).withAdded(group)));
     }
 

@@ -13,18 +13,28 @@ public class AddNewGroup extends TestBase {
   public void testAddNewGroup() throws Exception {
     app.goTo().groupTab();
     Groups before = app.group().allGroup();
-
-    int index = before.size() + 1;
     app.group().initGroupCreation();
-
     GroupData group = new GroupData().withGroupname("Family");
     app.group().fillGroupForm(group);
     app.group().saveFilledGroupForm();
     app.goTo().groupTab();
+    assertThat(app.group().getGroupCount(), equalTo(before.size()+ 1));
     Groups after = app.group().allGroup();
-    assertThat(after.size(), equalTo(before.size()+ 1));
-
     assertThat(after, equalTo(before.withAdded(group.withGroupid(after.stream().mapToInt((g) -> g.getGroupid()).max().getAsInt()))));
+  }
+
+  @Test(enabled = false)
+  public void testAddBadNewGroup() throws Exception {
+    app.goTo().groupTab();
+    Groups before = app.group().allGroup();
+    app.group().initGroupCreation();
+    GroupData group = new GroupData().withGroupname("Bar'");
+    app.group().fillGroupForm(group);
+    app.group().saveFilledGroupForm();
+    app.goTo().groupTab();
+    assertThat(app.group().getGroupCount(), equalTo(before.size()));
+    Groups after = app.group().allGroup();
+    assertThat(after, equalTo(before));
   }
 
 }

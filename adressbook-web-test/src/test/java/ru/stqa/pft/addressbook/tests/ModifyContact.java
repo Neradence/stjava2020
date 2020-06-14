@@ -23,17 +23,13 @@ public class ModifyContact extends TestBase {
 
     @Test
     public void testModifyContact() {
-
         Contacts before = app.contact().allContact();
         ContactData modContact = before.iterator().next();
         ContactData contact = new ContactData().withContactid(modContact.getContactid()).withContactname("Tomo").withContactsurname("Kovach");
-
         app.contact().modifyContact(contact);
         app.goTo().allContactTab();
-
+        assertEquals(app.contact().getContactCount(), before.size());
         Contacts after = app.contact().allContact();
-        assertEquals(after.size(), before.size());
-
         assertThat(after, equalTo(before.withOut(modContact).withAdded(contact)));
     }
 
