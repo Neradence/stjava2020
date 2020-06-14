@@ -6,9 +6,16 @@ public class ContactData {
     private int contactid = Integer.MAX_VALUE;
     private String contactname;
     private String contactsurname;
-    private String contactphone;
-    private String contactmail;
     private String contactgroup;
+    private String contactphone;
+    private String contactmobile;
+    private String contactworkphone;
+    private String allphones;
+    private String email1;
+    private String email2;
+    private String email3;
+    private String allmails;
+    private String address;
 
     public String getContactname() {
         return contactname;
@@ -22,16 +29,44 @@ public class ContactData {
         return contactphone;
     }
 
-    public String getContactmail() {
-        return contactmail;
+    public String getContactmobile() {
+        return contactmobile;
+    }
+
+    public String getContactworkphone() {
+        return contactworkphone;
     }
 
     public String getContactgroup() {
         return contactgroup;
     }
 
+    public String getAllphones() {
+        return allphones;
+    }
+
     public int getContactid() {
         return contactid;
+    }
+
+    public String getEmail1() {
+        return email1;
+    }
+
+    public String getEmail2() {
+        return email2;
+    }
+
+    public String getEmail3() {
+        return email3;
+    }
+
+    public String getAllmails() {
+        return allmails;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public ContactData withContactid(int contactid) {
@@ -54,15 +89,50 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withContactmail(String contactmail) {
-        this.contactmail = contactmail;
-        return this;
-    }
-
     public ContactData withContactgroup(String contactgroup) {
         this.contactgroup = contactgroup;
         return this;
     }
+
+    public ContactData withContactmobile(String contactmobile) {
+        this.contactmobile = contactmobile;
+        return this;
+    }
+
+    public ContactData withContactworkphone(String contactworkphone) {
+        this.contactworkphone = contactworkphone;
+        return this;
+    }
+
+    public ContactData withAllContactPones(String allphones) {
+        this.allphones = allphones;
+        return this;
+    }
+
+    public ContactData withAllContactEmails(String allmails) {
+        this.allmails = allmails;
+        return this;
+    }
+
+    public ContactData withEmail1(String email1) {
+        this.email1 = email1;
+        return this;
+    }
+
+    public ContactData withEmail2(String email2) {
+        this.email2 = email2;
+        return this;
+    }
+
+    public ContactData withEmail3(String email3) {
+        this.email3 = email3;
+        return this;
+    }
+    public ContactData withContactaddress(String address) {
+        this.address = address;
+        return this;
+    }
+
 
     @Override
     public String toString() {
@@ -87,4 +157,5 @@ public class ContactData {
     public int hashCode() {
         return Objects.hash(contactid, contactname, contactsurname);
     }
+
 }

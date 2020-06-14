@@ -20,7 +20,27 @@ public class ContactHelper extends HelperBase {
         type(By.name("firstname"),contactData.getContactname());
         type(By.name("lastname"),contactData.getContactsurname());
         type(By.name("home"),contactData.getContactphone());
-        type(By.name("email"),contactData.getContactmail());
+        type(By.name("mobile"),contactData.getContactmobile());
+        type(By.name("work"),contactData.getContactworkphone());
+        type(By.name("email"),contactData.getEmail1());
+        type(By.name("email2"),contactData.getEmail2());
+        type(By.name("email3"),contactData.getEmail3());
+        type(By.name("address"),contactData.getAddress());
+    }
+
+    public ContactData infoEditContact(ContactData contactPh) {
+        initModifyContactById(contactPh.getContactid());
+        String name = wd.findElement(By.name("firstname")).getAttribute("value");
+        String surname = wd.findElement(By.name("lastname")).getAttribute("value");
+        String homeph = wd.findElement(By.name("home")).getAttribute("value");
+        String mobileph = wd.findElement(By.name("mobile")).getAttribute("value");
+        String workph = wd.findElement(By.name("work")).getAttribute("value");
+        String email1 = wd.findElement(By.name("email")).getAttribute("value");
+        String email2 = wd.findElement(By.name("email2")).getAttribute("value");
+        String email3 = wd.findElement(By.name("email3")).getAttribute("value");
+        String address = wd.findElement(By.name("address")).getAttribute("value");
+        wd.navigate().back();
+        return new ContactData().withContactid(contactPh.getContactid()).withContactname(name).withContactsurname(surname).withContactphone(homeph).withContactmobile(mobileph).withContactworkphone(workph).withEmail1(email1).withEmail2(email2).withEmail3(email3).withContactaddress(address);
     }
 
     public int getContactCount() {
@@ -83,9 +103,11 @@ public class ContactHelper extends HelperBase {
             int coid = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
             String coname = element.findElement(By.xpath(".//td[3]")).getText();
             String cosurname = element.findElement(By.xpath(".//td[2]")).getText();
-            contactCache.add(new ContactData().withContactid(coid).withContactname(coname).withContactsurname(cosurname));
+            String allContactPhones = element.findElement(By.xpath(".//td[6]")).getText();
+            String allContactEmails = element.findElement(By.xpath(".//td[5]")).getText();
+            String contactAddress = element.findElement(By.xpath(".//td[4]")).getText();
+            contactCache.add(new ContactData().withContactid(coid).withContactname(coname).withContactsurname(cosurname).withAllContactPones(allContactPhones).withAllContactEmails(allContactEmails).withContactaddress(contactAddress));
         }
         return new Contacts(contactCache);
     }
-
 }

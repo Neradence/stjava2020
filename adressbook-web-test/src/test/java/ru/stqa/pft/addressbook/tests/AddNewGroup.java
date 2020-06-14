@@ -14,11 +14,11 @@ public class AddNewGroup extends TestBase {
     app.goTo().groupTab();
     Groups before = app.group().allGroup();
     app.group().initGroupCreation();
-    GroupData group = new GroupData().withGroupname("Family");
+    GroupData group = new GroupData().withGroupname("Sport");
     app.group().fillGroupForm(group);
     app.group().saveFilledGroupForm();
     app.goTo().groupTab();
-    assertThat(app.group().getGroupCount(), equalTo(before.size()+ 1));
+    assertThat(app.group().getGroupCount(), equalTo(before.size() + 1));
     Groups after = app.group().allGroup();
     assertThat(after, equalTo(before.withAdded(group.withGroupid(after.stream().mapToInt((g) -> g.getGroupid()).max().getAsInt()))));
   }

@@ -13,9 +13,8 @@ public class AddNewContact extends TestBase {
   public void testAddNewContact() throws Exception {
     app.goTo().allContactTab();
     Contacts before = app.contact().allContact();
-    System.out.println(before.size());
     app.goTo().addContactTab();
-    ContactData contact = new ContactData().withContactname("Nina").withContactsurname("Green").withContactphone("+1 888 888 88").withContactmail("anna@mail.mail").withContactgroup("Colleagues");
+    ContactData contact = new ContactData().withContactname("Anna").withContactsurname("Green").withContactphone("1234").withEmail1("anna@mail.mail").withContactaddress("Big City");
     app.contact().fillContactForm(contact);
     app.contact().saveNewContactForm();
     app.goTo().allContactTab();
