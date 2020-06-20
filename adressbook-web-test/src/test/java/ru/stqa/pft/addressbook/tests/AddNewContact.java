@@ -6,7 +6,7 @@ import ru.stqa.pft.addressbook.models.ContactData;
 import ru.stqa.pft.addressbook.models.Contacts;
 import ru.stqa.pft.addressbook.models.GroupData;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,10 +17,16 @@ import static org.hamcrest.Matchers.equalTo;
 public class AddNewContact extends TestBase {
 
   @DataProvider
-  public Iterator<Object[]> validContacts() {
+  public Iterator<Object[]> validContacts() throws IOException {
     List<Object[]> list = new ArrayList<Object[]>();
-    list.add(new Object[] {new ContactData().withContactname("name1").withContactsurname("surname1").withContactaddress("address1").withEmail1("email1").withContactphone("1234")});
-    list.add(new Object[] {new ContactData().withContactname("name2").withContactsurname("surname2").withContactaddress("address2").withEmail1("email2").withContactphone("1234")});
+    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.csv")));
+    String line = reader.readLine();
+    while (line != null) {
+      String[] split = line.split(";");
+      list.add(new Object[] {new ContactData().withContactname(split[0]).withContactsurname(split[1]).withContactaddress(split[2]).withEmail1(split[3]).withContactphone(split[4])});
+      line = reader.readLine();
+    }
+
     return list.iterator();
   }
 
