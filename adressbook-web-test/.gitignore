@@ -2,6 +2,7 @@
 gradle/
 build/
 .idea/
+resources/
 
 gradlew
 gradlew.bat
